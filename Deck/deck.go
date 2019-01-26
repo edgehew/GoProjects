@@ -8,11 +8,12 @@ const (
 	CLUB    = "\xE2\x99\xA3"
 	HEART   = "\xE2\x99\xA5"
 	DIAMOND = "\xE2\x99\xA6"
+	JOKER   = "\xF0\x9F\x83\x9F"
 )
 
 // Deck - Structure extending an array of 52 Cards
 type Deck struct {
-	cards [52]Card
+	cards []Card
 }
 
 // makeDeck - Function for creating a new deck of playing cards
@@ -20,16 +21,15 @@ func makeDeck() Deck {
 	var d Deck
 
 	SUITS := [4]string{SPADE, CLUB, HEART, DIAMOND}
-
 	VALUES := []string{"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"}
 
-	k := 0
 	for _, s := range SUITS {
 		for _, v := range VALUES {
-			d.cards[k] = makeCard(v, s)
-			k++
+			d.cards = append(d.cards, makeCard(v, s))
 		}
 	}
+	d.cards = append(d.cards, makeCard("Joker", JOKER))
+	d.cards = append(d.cards, makeCard("Joker", JOKER))
 	return d
 }
 
@@ -37,10 +37,11 @@ func makeDeck() Deck {
 func (d Deck) print() {
 	for i, card := range d.cards {
 		card.print()
-		if i == 12 || i == 25 || i == 38 || i == 51 {
+		if i%12 == 0 && i != 0 {
 			fmt.Println()
 		} else {
 			fmt.Print(", ")
 		}
 	}
+	fmt.Println()
 }

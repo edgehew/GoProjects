@@ -7,13 +7,11 @@ import (
 	"strings"
 )
 
-type Hand struct{}
-
 // Player - A structure representing a Person Playing the game
 type Player struct {
 	name        string
 	catchPhrase string
-	chipCount   int
+	points      int
 	hand        Hand
 }
 
@@ -27,19 +25,19 @@ func makePlayer() Player {
 	fmt.Print("Enter Catchphrase: ")
 	p.catchPhrase, _ = reader.ReadString('\n')
 	p.catchPhrase = strings.Replace(p.catchPhrase, "\n", "", -1)
-	p.chipCount = 10000
+	p.points = 10000
 
 	return p
 }
 
 // addToChipCount - Function for adding to a players chip count
-func (p *Player) addToChipCount(amount int) {
-	p.chipCount += amount
+func (p *Player) addToPoints(amount int) {
+	p.points += amount
 }
 
 // printInfo - Function for printing a players current info
 func (p Player) printInfo() {
-	fmt.Printf("Player: %v has $%v \n", p.name, p.chipCount)
+	fmt.Printf("Player: %v has $%v \n", p.name, p.points)
 }
 
 // printCatchPhrase - Function for Printing a players catchPhrase
