@@ -45,3 +45,12 @@ func (d Deck) print() {
 	}
 	fmt.Println()
 }
+
+func (d *Deck) deal() Hand {
+	var delt [6]Card
+	copy(delt[:], d.cards[:])
+	delt[0].turnCardOver()
+	delt[5].turnCardOver()
+	d.cards = d.cards[5:]
+	return Hand{ delt, 0}	
+}

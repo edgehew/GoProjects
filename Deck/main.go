@@ -11,7 +11,11 @@ func main() {
 
 	player1 := makePlayer()
 	player1.printInfo()
-	player1.addToPoints(1000)
-	player1.printInfo()
-	player1.printCatchPhrase()
+
+	var players []Player
+	players = append(players, player1)
+	scoreboard := makeScoreboard(players)
+	hand := deck1.deal()
+	hand.print()
+	scoreboard.addToScore(&player1, -10)
 }

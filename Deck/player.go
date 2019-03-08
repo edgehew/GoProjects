@@ -11,8 +11,7 @@ import (
 type Player struct {
 	name        string
 	catchPhrase string
-	points      int
-	hand        Hand
+	hand Hand
 }
 
 // makePlayer - Function for creating a Player
@@ -25,19 +24,13 @@ func makePlayer() Player {
 	fmt.Print("Enter Catchphrase: ")
 	p.catchPhrase, _ = reader.ReadString('\n')
 	p.catchPhrase = strings.Replace(p.catchPhrase, "\n", "", -1)
-	p.points = 10000
 
 	return p
 }
 
-// addToChipCount - Function for adding to a players chip count
-func (p *Player) addToPoints(amount int) {
-	p.points += amount
-}
-
 // printInfo - Function for printing a players current info
 func (p Player) printInfo() {
-	fmt.Printf("Player: %v has $%v \n", p.name, p.points)
+	fmt.Printf("Player: %v \n", p.name)
 }
 
 // printCatchPhrase - Function for Printing a players catchPhrase
