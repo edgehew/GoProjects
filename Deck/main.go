@@ -4,9 +4,9 @@ func main() {
 	deck1 := makeDeck()
 	deck2 := makeDeck()
 
-	for _, card := range deck2.cards {
-		deck1.cards = append(deck1.cards, card)
-	}
+	deck1.append(deck2)
+
+	deck1.shuffle()
 	deck1.print()
 
 	player1 := makePlayer()
@@ -15,7 +15,9 @@ func main() {
 	var players []Player
 	players = append(players, player1)
 	scoreboard := makeScoreboard(players)
-	hand := deck1.deal()
-	hand.print()
-	scoreboard.addToScore(&player1, -10)
+	player1.addHand(deck1.deal())
+	if player1.playTurn() {
+		scoreboard.addToScore(&player1, player1.getRoundScore())
+	}
+
 }

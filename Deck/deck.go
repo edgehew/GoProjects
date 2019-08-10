@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
 // Constant suit values
 const (
@@ -35,9 +39,11 @@ func makeDeck() Deck {
 
 // print - Function for printing all the cards in the deck
 func (d Deck) print() {
+	fmt.Println("Printing Deck")
 	for i, card := range d.cards {
+		card.turnCardOver()
 		card.print()
-		if i%12 == 0 && i != 0 {
+		if (i+1)%12 == 0 && i != 0 {
 			fmt.Println()
 		} else {
 			fmt.Print(", ")
@@ -46,11 +52,28 @@ func (d Deck) print() {
 	fmt.Println()
 }
 
+func (d *Deck) append(deck2 Deck) {
+	for _, card := range deck2.cards {
+		d.cards = append(d.cards, card)
+	}
+}
+
 func (d *Deck) deal() Hand {
 	var delt [6]Card
 	copy(delt[:], d.cards[:])
 	delt[0].turnCardOver()
 	delt[5].turnCardOver()
 	d.cards = d.cards[5:]
-	return Hand{ delt, 0}	
+	return Hand{delt, 0}
+}
+
+func (d *Deck) shuffle() {
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+
+	for i := range d.cards {
+		newPosition := r.Intn(len(d.cards) - 1)
+
+		d.cards[i], d.cards[newPosition] = d.cards[newPosition], d.cards[i]
+	}
 }

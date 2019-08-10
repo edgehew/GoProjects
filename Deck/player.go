@@ -11,7 +11,8 @@ import (
 type Player struct {
 	name        string
 	catchPhrase string
-	hand Hand
+	hand        Hand
+	roundScore  int
 }
 
 // makePlayer - Function for creating a Player
@@ -28,6 +29,10 @@ func makePlayer() Player {
 	return p
 }
 
+func (p *Player) addHand(h Hand) {
+	p.hand = h
+}
+
 // printInfo - Function for printing a players current info
 func (p Player) printInfo() {
 	fmt.Printf("Player: %v \n", p.name)
@@ -36,4 +41,15 @@ func (p Player) printInfo() {
 // printCatchPhrase - Function for Printing a players catchPhrase
 func (p Player) printCatchPhrase() {
 	fmt.Printf("Player: %v says %v \n", p.name, p.catchPhrase)
+}
+
+func (p *Player) playTurn() bool {
+	p.hand.flipHand()
+	p.hand.print()
+	p.roundScore = p.hand.calculateScore()
+	return p.hand.allCardsVisable()
+}
+
+func (p Player) getRoundScore() int {
+	return p.roundScore
 }
