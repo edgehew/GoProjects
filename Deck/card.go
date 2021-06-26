@@ -22,10 +22,14 @@ func (c *Card) turnCardOver() {
 	c.isFaceUp = true
 }
 
+func (c *Card) toString() string {
+	return c.value + c.suit
+}
+
 // print - Funciton for printing a card
 func (c *Card) print() {
 	if c.isFaceUp {
-		fmt.Print(c.value + c.suit)
+		fmt.Print(c.toString())
 	} else {
 		fmt.Print("XX")
 	}

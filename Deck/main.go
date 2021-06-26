@@ -16,8 +16,9 @@ func main() {
 	players = append(players, player1)
 	scoreboard := makeScoreboard(players)
 	player1.addHand(deck1.deal())
-	if player1.playTurn() {
-		scoreboard.addToScore(&player1, player1.getRoundScore())
+	var lastRound = false
+	for !lastRound {
+		lastRound = player1.playTurn(lastRound, &deck1)
 	}
-
+	scoreboard.addToScore(&player1, player1.getRoundScore())
 }

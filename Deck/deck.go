@@ -17,7 +17,8 @@ const (
 
 // Deck - Structure extending an array of 52 Cards
 type Deck struct {
-	cards []Card
+	cards    []Card
+	discards []Card
 }
 
 // makeDeck - Function for creating a new deck of playing cards
@@ -52,10 +53,14 @@ func (d Deck) print() {
 	fmt.Println()
 }
 
-func (d *Deck) append(deck2 Deck) {
-	for _, card := range deck2.cards {
+func (d *Deck) appendCards(cards []Card) {
+	for _, card := range cards {
 		d.cards = append(d.cards, card)
 	}
+}
+
+func (d *Deck) append(deck2 Deck) {
+	d.appendCards(deck2.cards)
 }
 
 func (d *Deck) deal() Hand {
@@ -76,4 +81,46 @@ func (d *Deck) shuffle() {
 
 		d.cards[i], d.cards[newPosition] = d.cards[newPosition], d.cards[i]
 	}
+}
+
+func (d *Deck) draw() Card {
+	if len(d.cards) < 1 {
+		fmt.Println("Re-Shuffle required!")
+		d.appendCards(d.discards)
+		d.discards = nil
+		d.shuffle()
+	}
+
+	var returnCard = d.cards[0]
+	d.cards = d.cards[1:]
+	returnCard.turnCardOver()
+	fmt.Print("Drew Card: ")
+	returnCard.print()
+	fmt.Println("")
+
+	return returnCard
+}
+
+func (d *Deck) discard(card Card) {
+	d.discards = append(d.discards, card)
+	fmt.Print("Discarded: ")
+	card.print()
+	fmt.Println("")
+}
+
+func (d *Deck) drawDiscard() Card {
+
+	var returnCard = d.discards[len(d.discards)-1]
+	d.discards = d.discards[:len(d.discards)-1]
+	fmt.Print("Drew Dis-Card: ")
+	returnCard.print()
+	fmt.Println("")
+
+	return returnCard
+}
+
+func (d *Deck) peekDiscard() string {
+
+	var returnCard = d.discards[len(d.discards)-1]
+	return returnCard.value + returnCard.suit
 }
