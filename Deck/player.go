@@ -9,11 +9,10 @@ import (
 
 // Player - A structure representing a Person Playing the game
 type Player struct {
-	name        string
-	catchPhrase string
-	hand        Hand
-	roundScore  int
-	reader      bufio.Reader
+	name       string
+	hand       Hand
+	roundScore int
+	reader     bufio.Reader
 }
 
 // makePlayer - Function for creating a Player
@@ -23,9 +22,6 @@ func makePlayer() Player {
 	fmt.Print("Enter Player Name: ")
 	p.name, _ = reader.ReadString('\n')
 	p.name = strings.Replace(p.name, "\n", "", -1)
-	fmt.Print("Enter Catchphrase: ")
-	p.catchPhrase, _ = reader.ReadString('\n')
-	p.catchPhrase = strings.Replace(p.catchPhrase, "\n", "", -1)
 
 	return p
 }
@@ -39,17 +35,21 @@ func (p Player) printInfo() {
 	fmt.Printf("Player: %v \n", p.name)
 }
 
-// printCatchPhrase - Function for Printing a players catchPhrase
-func (p Player) printCatchPhrase() {
-	fmt.Printf("Player: %v says %v \n", p.name, p.catchPhrase)
-}
-
 func (p *Player) playTurn(lastTurn bool, deck *Deck) bool {
-	if len(deck.discards) == 0 {
-		fmt.Println("Select a move!\n 1. Draw from Deck")
-	} else {
-		fmt.Printf("Select a move!\n 1. Draw from Deck\n 2. Pick up discard %s\n", deck.peekDiscard())
+	if lastTurn {
+		fmt.Println("!!! LAST TURN !!!")
 	}
+
+	if len(deck.discards) == 0 {
+		fmt.Printf("Select a move %s!\n", p.name)
+		p.hand.print()
+		fmt.Println(" 1. Draw from Deck")
+	} else {
+		fmt.Printf("Select a move %s!\n", p.name)
+		p.hand.print()
+		fmt.Printf(" 1. Draw from Deck\n 2. Pick up discard %s\n", deck.peekDiscard())
+	}
+
 	var move int
 	fmt.Scanln(&move)
 	var newCard Card
@@ -59,12 +59,12 @@ func (p *Player) playTurn(lastTurn bool, deck *Deck) bool {
 		newCard = deck.drawDiscard()
 	}
 
-	fmt.Printf("Select a move with %s!\n 1 to 6 Replace, other discard!\n", newCard.toString())
-	p.hand.print()
+	fmt.Printf("Select a move with %s!\n Replace [1-6], Discard [ATE]!\n", newCard.toString())
 	fmt.Scanln(&move)
 	if move > 0 && move < 7 {
 		var oldCard = p.hand.cards[move-1]
 		oldCard.turnCardOver()
+		newCard.turnCardOver()
 		p.hand.cards[move-1] = newCard
 		fmt.Printf("Replaced %s with %s\n", newCard.toString(), oldCard.toString())
 		newCard = oldCard
@@ -72,16 +72,26 @@ func (p *Player) playTurn(lastTurn bool, deck *Deck) bool {
 
 	deck.discard(newCard)
 
-	if lastTurn || p.hand.allCardsVisable() {
+	if lastTurn || p.hand.allCardsVisible() {
 		p.hand.flipHand()
 		p.roundScore = p.hand.calculateScore()
 	}
 
 	p.hand.print()
 
-	return p.hand.allCardsVisable()
+	return p.hand.allCardsVisible()
 }
 
 func (p Player) getRoundScore() int {
 	return p.roundScore
+}
+
+func (p *Player) resetRoundScore() {
+	p.roundScore = 0
+}
+
+func (p *Player) discardHand(d *Deck) {
+	for _, c := range p.hand.cards {
+		d.discard(c)
+	}
 }

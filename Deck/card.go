@@ -22,6 +22,10 @@ func (c *Card) turnCardOver() {
 	c.isFaceUp = true
 }
 
+func (c *Card) turnCardDown() {
+	c.isFaceUp = false
+}
+
 func (c *Card) toString() string {
 	return c.value + c.suit
 }

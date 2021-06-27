@@ -68,13 +68,23 @@ func (d *Deck) deal() Hand {
 	copy(delt[:], d.cards[:])
 	delt[0].turnCardOver()
 	delt[5].turnCardOver()
-	d.cards = d.cards[5:]
+	d.cards = d.cards[6:]
 	return Hand{delt, 0}
 }
 
 func (d *Deck) shuffle() {
+	if d.discards != nil {
+		d.appendCards(d.discards)
+		d.discards = nil
+	}
+
 	source := rand.NewSource(time.Now().UnixNano())
 	r := rand.New(source)
+
+	// shuffle should have all cards facedown
+	for i := range d.cards {
+		d.cards[i].turnCardDown()
+	}
 
 	for i := range d.cards {
 		newPosition := r.Intn(len(d.cards) - 1)
@@ -86,8 +96,6 @@ func (d *Deck) shuffle() {
 func (d *Deck) draw() Card {
 	if len(d.cards) < 1 {
 		fmt.Println("Re-Shuffle required!")
-		d.appendCards(d.discards)
-		d.discards = nil
 		d.shuffle()
 	}
 
@@ -103,16 +111,13 @@ func (d *Deck) draw() Card {
 
 func (d *Deck) discard(card Card) {
 	d.discards = append(d.discards, card)
-	fmt.Print("Discarded: ")
-	card.print()
-	fmt.Println("")
 }
 
 func (d *Deck) drawDiscard() Card {
 
 	var returnCard = d.discards[len(d.discards)-1]
 	d.discards = d.discards[:len(d.discards)-1]
-	fmt.Print("Drew Dis-Card: ")
+	fmt.Print("Drew Discard: ")
 	returnCard.print()
 	fmt.Println("")
 

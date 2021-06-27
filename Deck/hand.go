@@ -48,7 +48,7 @@ func checkCorners(s int, h Hand) int {
 	return s
 }
 
-func (h Hand) allCardsVisable() bool {
+func (h Hand) allCardsVisible() bool {
 	if checkCorners(0, h) == -10 {
 		return true
 	}
