@@ -8,7 +8,7 @@ import (
     //"net/http"
     "os"
     "os/signal"
-    //"strings"
+    "strings"
     "syscall"
 
     "github.com/bwmarrin/discordgo"
@@ -29,10 +29,11 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
         return
     }
 
-    m.Author.
-
     if m.Content == "!hello-world" {
-        _, err := s.ChannelMessageSend(m.ChannelID, "Hello World")
+        var b strings.Builder
+        fmt.Fprintf(&b, "Hello %s", m.Author.Username)
+        message := b.String()
+        _, err := s.ChannelMessageSend(m.ChannelID, message)
 
         if err != nil {
             fmt.Println(err)
