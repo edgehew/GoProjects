@@ -1,11 +1,8 @@
 package main
 
 import (
-    //"encoding/json"
     "flag"
     "fmt"
-    //"io/ioutil"
-    //"net/http"
     "os"
     "os/signal"
     "strings"
@@ -24,20 +21,31 @@ func init() {
     flag.Parse()
 }
 
+func createResponse(m *discordgo.MessageCreate) (s string) {
+    var b strings.Builder
+    if m.Content == "!hello" {
+        fmt.Fprintf(&b, "Hello %s", m.Author.Username)
+    } else if m.Content == "!complement" {
+        complement := getRandomComplement()
+        fmt.Fprintf(&b, "Hello %s! %s", m.Author.Username, complement)
+    } else if m.Content == "!insult" {
+        insult := getRandomInsult()
+        fmt.Fprintf(&b, "Hello %s! %s", m.Author.Username, insult)
+    }
+
+    return b.String()
+}
+
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
         return
     }
 
-    if m.Content == "!hello-world" {
-        var b strings.Builder
-        fmt.Fprintf(&b, "Hello %s", m.Author.Username)
-        message := b.String()
-        _, err := s.ChannelMessageSend(m.ChannelID, message)
+    message := createResponse(m)
+    _, err := s.ChannelMessageSend(m.ChannelID, message)
 
-        if err != nil {
-            fmt.Println(err)
-        }
+    if err != nil {
+        fmt.Println(err)
     }
 }
 
