@@ -11,9 +11,8 @@ COPY src/*.go ./
 
 RUN go build -o /bittersweet-bot
 
-EXPOSE 4004
-
 # Pass this in with 'docker run -e BOT_TOKEN="your-token"'
 ENV BOT_TOKEN=""
 
-CMD [ "/bittersweet-bot", "-t", "${BOT_TOKEN}" ]
+# sh is needed to expand the BOT_TOKEN ENV variable
+CMD [ "sh", "-c", "/bittersweet-bot -t ${BOT_TOKEN}" ]
