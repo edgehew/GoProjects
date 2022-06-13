@@ -7,10 +7,11 @@ The bittersweet-bot interacts with a Discord channel. The Bot will respond to th
 !insult
 !compliment
 !surprise
+!help
 ```
 
 # Dockerfile
-A docker file is provided to assist building and running this bot without needing to download go.
+A dockerfile is provided to assist building and running this bot without needing to download and installing go.
 
 ```bash
 docker build -t bittersweet-bot .
