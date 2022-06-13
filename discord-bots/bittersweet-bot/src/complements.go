@@ -1,10 +1,5 @@
 package main 
 
-import (
-	"math/rand"
-	"time"
-)
-
 var (
 	complementList = []string {
 		"Your smile is contagious.",
@@ -109,8 +104,3 @@ var (
 		"You're really something special.",
 	}
 )
-
-func getRandomComplement() (s string) {
-	rand.Seed(time.Now().Unix()) // initialize global pseudo random generator
-	return complementList[rand.Intn(len(complementList))]
-}
