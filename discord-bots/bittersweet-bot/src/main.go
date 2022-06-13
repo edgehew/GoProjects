@@ -1,4 +1,4 @@
-package main
+package main 
 
 import (
     "flag"
@@ -26,11 +26,15 @@ func createResponse(m *discordgo.MessageCreate) (s string) {
     if m.Content == "!hello" {
         fmt.Fprintf(&b, "Hello %s", m.Author.Username)
     } else if m.Content == "!complement" {
-        complement := getRandomComplement()
+        complement := getRandomPhrase(complementList)
         fmt.Fprintf(&b, "Hello %s! %s", m.Author.Username, complement)
     } else if m.Content == "!insult" {
-        insult := getRandomInsult()
+        insult := getRandomPhrase(insultList)
         fmt.Fprintf(&b, "Hello %s! %s", m.Author.Username, insult)
+    } else if m.Content == "!surprise" {
+        phrases := append(insultList, complementList...)
+        surprise := getRandomPhrase(phrases)
+        fmt.Fprintf(&b, "Hello %s! %s", m.Author.Username, surprise)
     }
 
     return b.String()
@@ -61,7 +65,7 @@ func main() {
     // Register the messageCreate func as a callback for MessageCreate events.
     dg.AddHandler(messageCreate)
 
-    // In this example, we only care about receiving message events.
+    // We only care about receiving message events.
     dg.Identify.Intents = discordgo.IntentsGuildMessages
 
     // Open a websocket connection to Discord and begin listening.

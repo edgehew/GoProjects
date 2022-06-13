@@ -1,4 +1,4 @@
-module github.com/edgehew/GoProjects/discord-bots/hello-world
+module github.com/edgehew/GoProjects/discord-bots/bittersweet-bot
 
 go 1.13
 

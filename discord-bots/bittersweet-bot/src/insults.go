@@ -1,9 +1,4 @@
-package main 
-
-import (
-	"math/rand"
-	"time"
-)
+package main
 
 var (
 	insultList = []string {
@@ -40,13 +35,8 @@ var (
 		"You lack brains so much that you can float on water.",
 		"I will insult you. But then I’ll have to explain later. It’s okay.",
 		"I don’t have time or crayons to explain to you.",
-		"We do not accept crayon-written resumes."
+		"We do not accept crayon-written resumes.",
 		"You know nothing. In fact, you know less than nothing. ‘Cause if you know you know nothing That will be something.",
 		"I expected an intellectual conversation. But it seems that no one is there.",
 	}
 )
-
-func getRandomInsult() (s string) {
-	rand.Seed(time.Now().Unix()) // initialize global pseudo random generator
-	return insultList[rand.Intn(len(insultList))]
-}
