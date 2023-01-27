@@ -30,7 +30,7 @@ func (c *Card) toString() string {
 	return c.value + c.suit
 }
 
-// print - Funciton for printing a card
+// print - Function for printing a card
 func (c *Card) print() {
 	if c.isFaceUp {
 		fmt.Print(c.toString())
