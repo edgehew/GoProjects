@@ -1,0 +1,38 @@
+<!--index.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+  <h1>Welcome to the Edge Home Base</h1>
+
+  <form action="/addPost" method="post" name="addPostForm">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" class="form-control" id="title" name="title"/>
+    </div>
+    <div class="form-group">
+      <label>Post</label>
+      <input type="text" class="form-control" placeholder="blogText" id="content" name="content" rows="3" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <!--Loop over the payload variable, which is the list of articles-->
+  {{range .payload }}
+    <!--Create the link for the article based on its ID-->
+    <div>
+        <form action="/article/delete/{{.ID}}" method="post" name="deletePostForm">
+          <a href="/article/view/{{.ID}}">
+            <!--Display the title of the article -->
+            <h2 style="display:inline">{{.Title}}</h2>
+          </a>
+          <span style="text-align: right">
+            <button type="delete" class="btn btn-submit">Delete</button>
+          </span>
+        </form>
+      <hr>
+    </div>
+  {{end}}
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}
