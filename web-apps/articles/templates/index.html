@@ -1,38 +1,61 @@
 <!--index.html-->
-
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
 
-  <h1>Welcome to the Edge Home Base</h1>
+  <h1 class="banner-text">Welcome to Guest Book</h1>
 
   <form action="/addPost" method="post" name="addPostForm">
-    <div class="form-group">
-      <label>Title</label>
-      <input type="text" class="form-control" id="title" name="title"/>
-    </div>
-    <div class="form-group">
-      <label>Post</label>
-      <input type="text" class="form-control" placeholder="blogText" id="content" name="content" rows="3" />
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <details>
+    <summary><h2 class="banner-text"><i class="fa fa-caret-down"></i>Create a Post</h2> </summary>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" id="title" name="title"/>
+      </div>
+      <div class="form-group">
+        <label>Post</label>
+        <textarea class="form-control" placeholder="blogText" id="content" name="content" rows="12"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </details>
   </form>
+  <hr>
+  <details open>
+    <summary> <h2 class="banner-text"><i class="fa fa-caret-down"></i>All Posts</h2> </summary>
+    <!--Loop over the payload variable, which is the list of articles-->
+    <table class="banner-text fancy-table" width="100%">
+      <tr>
+        <th><h3>Title</h3></td>
+        <th><h3>Date</h3></th>
+        <th><h3>Time</h3></th>
+        <th><h3>Actions</h3> </th>
+        <th></th>
+      <tr>
+    {{range .payload }}
+      <!--Create the link for the article based on its ID-->
+        <tr>
+            <td>
+            <a href="/article/view/{{.ID}}" class="inline-post">
+              <!--Display the title of the article -->
+              <h2 class="inline-post fancy-title">{{.Title}}</h2>
+            </a>
+          </td>
+          <td>{{ .CreationTime.Format "2006-01-02"}}</td>
+          <td>{{ .CreationTime.Format "03:04:05 pm"}}</td>
+          <td>
+            <span class="inline-post">
+              <!--<form action="/article/edit/{{.ID}}" method="post" name="deletePostForm">
+                  <button type="edit" class="btn btn-submit">Edit</button>
+              </form> -->
 
-  <!--Loop over the payload variable, which is the list of articles-->
-  {{range .payload }}
-    <!--Create the link for the article based on its ID-->
-    <div>
-        <form action="/article/delete/{{.ID}}" method="post" name="deletePostForm">
-          <a href="/article/view/{{.ID}}">
-            <!--Display the title of the article -->
-            <h2 style="display:inline">{{.Title}}</h2>
-          </a>
-          <span style="text-align: right">
-            <button type="delete" class="btn btn-submit">Delete</button>
-          </span>
-        </form>
-      <hr>
-    </div>
-  {{end}}
+              <form action="/article/delete/{{.ID}}" method="post" name="deletePostForm">
+                  <button type="delete" class="btn btn-submit">Delete</button>
+              </form>
+            </span>
+          </td>
+        </tr>
+    {{end}}
+    </table>
+  </details>
 
 <!--Embed the footer.html template at this location-->
 {{ template "footer.html" .}}

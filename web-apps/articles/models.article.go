@@ -4,21 +4,23 @@ package main
 
 import (
 	"errors"
+	"time"
 
 	"github.com/lithammer/shortuuid"
 )
 
 type article struct {
-	ID      string `json:"id" form:id`
-	Title   string `json:"title" form:title`
-	Content string `json:"content" form:content`
+	ID           string    `json:"id" form:id`
+	CreationTime time.Time `json:"date" form:"date"`
+	Title        string    `json:"title" form:title`
+	Content      string    `json:"content" form:content`
 }
 
 // For this demo, we're storing the article list in memory
 // In a real application, this list will most likely be fetched
 // from a database or from static files
 var articleList = []article{
-	article{ID: shortuuid.New(), Title: "For Shay", Content: "I love you!!!"},
+	article{ID: shortuuid.New(), CreationTime: time.Now(), Title: "For Shay", Content: "I love you!!!"},
 }
 
 // Return a list of all the articles
@@ -37,9 +39,10 @@ func getArticleByID(id string) (*article, error) {
 
 func addArticle(title string, content string) {
 	articleList = append(articleList, article{
-		ID:      shortuuid.New(),
-		Title:   title,
-		Content: content,
+		ID:           shortuuid.New(),
+		CreationTime: time.Now(),
+		Title:        title,
+		Content:      content,
 	})
 }
 

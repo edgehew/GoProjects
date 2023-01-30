@@ -4,12 +4,14 @@
 {{ template "header.html" .}}
 
 <!--Display the title of the article-->
-<h1>{{.payload.Title}}</h1>
+<h1 class="banner-text">{{.payload.Title}}</h1>
 
 <hr>
 
-<!--Display the content of the article-->
-<p style="font-size:30px">{{.payload.Content}}</p>
+<div class="container">
+    <!--Display the content of the article-->
+    <p class="p-text">{{.payload.Content}}</p>
+</div>
 
 
 <!--Embed the footer.html template at this location-->
