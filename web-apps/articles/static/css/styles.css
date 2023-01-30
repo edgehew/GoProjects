@@ -1,0 +1,59 @@
+
+.header {
+   background-color:black;
+   color:white;
+   text-align:center;
+   padding:5px; 
+}
+
+.banner-text{
+   font-style: oblique;
+   font-family: fantasy;
+}
+.fancy-title {
+   font-family: fantasy;
+   padding:20px;
+}
+
+.fancy-table {
+   table-layout: auto;
+   column-rule-style: dashed;
+   column-fill: balance;
+}
+
+.post-text {
+   width:350px;
+   float:left;
+   padding:10px; 
+}
+.inline-post {
+   display: inline;
+}
+.p-text {
+   font-size: medium;
+   font-family:'Courier New', Courier, monospace;
+}
+
+.form-style {
+   padding: 10px;
+}
+.form-center {
+   align-self: center;
+}
+
+.body {
+   background-color: whitesmoke;
+}
+.section {
+   width:350px;
+   float:left;
+   padding:10px; 
+}
+
+.footer {
+   background-color:black;
+   color:white;
+   clear:both;
+   text-align:center;
+   padding:5px; 
+}
