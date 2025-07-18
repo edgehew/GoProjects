@@ -1,0 +1,3 @@
+[submodule "web-apps/go-gin-notes"]
+	path = web-apps/go-gin-notes
+	url = https://github.com/amritsingh/go-gin-notes
